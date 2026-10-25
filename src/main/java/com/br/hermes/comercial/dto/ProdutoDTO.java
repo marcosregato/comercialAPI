@@ -1,5 +1,9 @@
 package com.br.hermes.comercial.dto;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,15 +11,18 @@ import lombok.NoArgsConstructor;
 @Data 
 @AllArgsConstructor
 @NoArgsConstructor 
-public class ProdytoDTO {
+@Entity
+public class ProdutoDTO {
 
-   private String nome;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String nome;
     private String categoria;
     private String subCategoria;
     private String codigo;
     private String marca;
     private String dataCompra;
-    private Integer id;
     private int preco;
     private int precoCompra;
     private Integer estoque;

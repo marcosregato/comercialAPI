@@ -4,6 +4,15 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Java runtime and local files ###
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+.env
+.env.*
+!.env.example
+
 .gradle/
 bin/
 
