@@ -1,9 +1,13 @@
 package com.br.hermes.comercial.dto;
 
+import com.br.hermes.comercial.enuns.SubCategoria;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +30,10 @@ public class ProdutoDTO {
     private int preco;
     private int precoCompra;
     private Integer estoque;
-   
+
+    @PrePersist
+    @PreUpdate
+    private void validarCategoriaESubCategoria() {
+        SubCategoria.validarPertencimento(categoria, subCategoria);
+    }
 }

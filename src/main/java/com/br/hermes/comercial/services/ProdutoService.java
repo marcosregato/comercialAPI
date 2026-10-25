@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.br.hermes.comercial.dto.ProdutoDTO;
+import com.br.hermes.comercial.enuns.Categoria;
 import com.br.hermes.comercial.repository.ProdutoRepository;
 
 @Service
@@ -16,11 +17,11 @@ public class ProdutoService {
         this.produtoRepository = produtoRepository;
     }
 
-    public List<ProdutoDTO> listaProdutoDoTipo(String tipoProduto) {
-        if (tipoProduto == null || tipoProduto.isBlank()) {
-            throw new IllegalArgumentException("O tipo de produto não pode ser nulo ou vazio.");
+    public List<ProdutoDTO> listaProdutoDoTipo(Categoria categoria) {
+        if (categoria == null) {
+            throw new IllegalArgumentException("A categoria não pode ser nula.");
         }
 
-        return produtoRepository.findByCategoriaIgnoreCase(tipoProduto);
+        return produtoRepository.findByCategoriaIgnoreCase(categoria.getDescricao());
     }
 }
