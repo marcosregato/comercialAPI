@@ -2,24 +2,20 @@ package com.br.hermes.comercial.repository;
 
 import java.util.Optional;
 
-import com.br.hermes.comercial.dto.UsuarioDTO;
+import com.br.hermes.comercial.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UsuarioRepository extends JpaRepository<UsuarioDTO, Integer> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-    public UsuarioDTO findById(Long id);
+    public Usuario findByNome(String nome);
 
-    public UsuarioDTO  findByNome(String nome);
+    public Usuario findByCnpj(String cnpj);
 
-    public UsuarioDTO findByCnpj(String cnpj);
+    public Usuario deleteByNome(String nome);
 
-    public UsuarioDTO deleteById(Long id);
+    public Usuario deleteByCnpj(String cnpj);
 
-    public UsuarioDTO deleteByNome(String nome);
-
-    public UsuarioDTO deleteByCnpj(String cnpj);
-
-    Optional<UsuarioDTO> findByNomeIgnoreCaseAndTipoUsuarioIgnoreCase(String nome, String tipoUsuario);
+    Optional<Usuario> findByNomeIgnoreCaseAndTipoUsuarioIgnoreCase(String nome, String tipoUsuario);
 
     
     

@@ -1,8 +1,9 @@
-package com.br.hermes.comercial.dto;
+package com.br.hermes.comercial.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity 
-public class EstoqueDTO {
+@Table(name = "estoquedto")
+public class Estoque {
 
     @Id 
     private Integer id;

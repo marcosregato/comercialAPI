@@ -1,6 +1,6 @@
-package com.br.hermes.comercial.enuns;
+package com.br.hermes.comercial.enums;
 
-public enum Categoria {
+public enum CategoriaEnum {
 
     ELETRONICOS("Eletrônicos"),
     MOVEIS("Móveis"),
@@ -17,7 +17,7 @@ public enum Categoria {
 
     private final String descricao;
 
-    Categoria(String descricao) {
+    CategoriaEnum(String descricao) {
         this.descricao = descricao;
     }
 
@@ -25,8 +25,8 @@ public enum Categoria {
         return descricao;
     }
 
-    public static Categoria fromValue(String value) {
-        for (Categoria categoria : values()) {
+    public static CategoriaEnum fromValue(String value) {
+        for (CategoriaEnum categoria : values()) {
             if (categoria.name().equalsIgnoreCase(value)
                     || categoria.descricao.equalsIgnoreCase(value)) {
                 return categoria;

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.hermes.comercial.dto.LoginDTO;
+import com.br.hermes.comercial.entities.Login;
 import com.br.hermes.comercial.services.LoginService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
@@ -25,7 +25,7 @@ public class LoginhController {
     @PostMapping("/validar")
     public String realizarLogin(@RequestParam String usuario,@RequestParam String senha, HttpSession session) {
 
-        LoginDTO login = loginService.validarLogin(usuario, senha);
+        Login login = loginService.validarLogin(usuario, senha);
 
         session.setAttribute("usuarioId", login.getId());
         session.setAttribute("usuario", login.getUsuario());

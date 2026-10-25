@@ -1,8 +1,9 @@
-package com.br.hermes.comercial.dto;
+package com.br.hermes.comercial.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor 
 @Entity
-public class LoginDTO {
+@Table(name = "logindto")
+public class Login {
     
     @Id 
     private String id;

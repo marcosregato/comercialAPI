@@ -2,9 +2,9 @@ package com.br.hermes.comercial.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.br.hermes.comercial.dto.LoginDTO;
+import com.br.hermes.comercial.entities.Login;
 
-public interface LoginRepository extends JpaRepository<LoginDTO, String> {
+public interface LoginRepository extends JpaRepository<Login, String> {
     
-    LoginDTO findByUsuarioAndSenha(String usuario, String senha);
+    Login findByUsuarioAndSenha(String usuario, String senha);
 }

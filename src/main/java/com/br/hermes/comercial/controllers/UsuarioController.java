@@ -3,11 +3,17 @@ package com.br.hermes.comercial.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 
-import com.br.hermes.comercial.dto.UsuarioDTO;
+import com.br.hermes.comercial.dto.CriarUsuarioRequestDTO;
+import com.br.hermes.comercial.dto.UsuarioResponseDTO;
 import com.br.hermes.comercial.services.UsuarioService;
 
 @RestController
@@ -22,14 +28,17 @@ public class UsuarioController {
     }
 
     @GetMapping("/tipoUsuario/{tipo}/{nome}")
-    public UsuarioDTO getUsuarioPorTipo(
+    public UsuarioResponseDTO getUsuarioPorTipo(
         @PathVariable String tipo,
         @PathVariable String nome) {
-        return usuarioService.buscarPorTipoENome(tipo, nome);
+        return UsuarioResponseDTO.from(usuarioService.buscarPorTipoENome(tipo, nome));
     }
     
-    public void saltarUsuario() {
-        System.out.println("Salvando Usuario...");
+    @PostMapping
+    public ResponseEntity<UsuarioResponseDTO> criarUsuario(
+            @Valid @RequestBody CriarUsuarioRequestDTO request) {
+        UsuarioResponseDTO response = UsuarioResponseDTO.from(usuarioService.criar(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     public void atualizarUsuario() {

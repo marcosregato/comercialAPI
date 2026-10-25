@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.br.hermes.comercial.dto.ProdutoDTO;
-import com.br.hermes.comercial.enuns.Categoria;
+import com.br.hermes.comercial.entities.Produto;
+import com.br.hermes.comercial.enums.CategoriaEnum;
 import com.br.hermes.comercial.repository.ProdutoRepository;
 
 @Service
@@ -17,7 +17,7 @@ public class ProdutoService {
         this.produtoRepository = produtoRepository;
     }
 
-    public List<ProdutoDTO> listaProdutoDoTipo(Categoria categoria) {
+    public List<Produto> listaProdutoDoTipo(CategoriaEnum categoria) {
         if (categoria == null) {
             throw new IllegalArgumentException("A categoria não pode ser nula.");
         }

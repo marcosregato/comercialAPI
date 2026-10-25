@@ -1,4 +1,4 @@
-package com.br.hermes.comercial.utils;
+package com.br.hermes.comercial.enums;
 
 public enum StatusPagamentoEnum {
     
