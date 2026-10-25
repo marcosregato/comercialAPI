@@ -18,10 +18,12 @@ public class EstoqueDTO {
     @Id 
     private Integer id;
 
+    @NotBlank
+    @Column (nullable = false, length = 50)
     @Min (value = 0, message = "O estoque mínimo não pode ser negativo")
-    @Column (nullable = false)
     private Integer estoqueMinimo;
     
+    @NotBlank
     @Min (value = 0, message = "O estoque máximo não pode ser negativo")
     @Column (nullable = false)
     private Integer estoqueMaximo;

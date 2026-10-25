@@ -4,9 +4,7 @@ import java.util.Optional;
 
 import com.br.hermes.comercial.dto.UsuarioDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface UsuarioRepository extends JpaRepository<UsuarioDTO, Integer> {
 
     public UsuarioDTO findById(Long id);
