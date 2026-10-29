@@ -68,4 +68,17 @@ public class Pagamento {
             status = StatusPagamentoEnum.PENDENTE;
         }
     }
+
+    public void setVenda(Venda venda) {
+        if (this.venda == venda) {
+            return;
+        }
+        if (this.venda != null) {
+            this.venda.removerPagamentoAssociado(this);
+        }
+        this.venda = venda;
+        if (venda != null) {
+            venda.adicionarPagamentoAssociado(this);
+        }
+    }
 }

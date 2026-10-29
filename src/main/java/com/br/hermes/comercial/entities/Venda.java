@@ -11,6 +11,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -40,6 +43,13 @@ public class Venda {
     @Column(nullable = false)
     private LocalDateTime realizadaEm;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private Usuario cliente;
+
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemVenda> itens = new ArrayList<>();
+
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pagamento> pagamentos = new ArrayList<>();
 
@@ -51,12 +61,51 @@ public class Venda {
     }
 
     public void adicionarPagamento(Pagamento pagamento) {
-        pagamentos.add(pagamento);
         pagamento.setVenda(this);
     }
 
+    public void adicionarItem(ItemVenda item) {
+        item.setVenda(this);
+    }
+
     public void removerPagamento(Pagamento pagamento) {
-        pagamentos.remove(pagamento);
         pagamento.setVenda(null);
+    }
+
+    public void removerItem(ItemVenda item) {
+        item.setVenda(null);
+    }
+
+    public void setCliente(Usuario cliente) {
+        if (this.cliente == cliente) {
+            return;
+        }
+        if (this.cliente != null) {
+            this.cliente.removerVendaAssociada(this);
+        }
+        this.cliente = cliente;
+        if (cliente != null) {
+            cliente.adicionarVendaAssociada(this);
+        }
+    }
+
+    void adicionarItemAssociado(ItemVenda item) {
+        if (!itens.contains(item)) {
+            itens.add(item);
+        }
+    }
+
+    void removerItemAssociado(ItemVenda item) {
+        itens.remove(item);
+    }
+
+    void adicionarPagamentoAssociado(Pagamento pagamento) {
+        if (!pagamentos.contains(pagamento)) {
+            pagamentos.add(pagamento);
+        }
+    }
+
+    void removerPagamentoAssociado(Pagamento pagamento) {
+        pagamentos.remove(pagamento);
     }
 }

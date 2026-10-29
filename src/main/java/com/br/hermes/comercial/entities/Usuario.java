@@ -1,17 +1,23 @@
 package com.br.hermes.comercial.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data 
 @AllArgsConstructor
@@ -67,4 +73,29 @@ public class Usuario {
     @Pattern (regexp = "\\d{5}-\\d{3}", message = "{cliente.cep.pattern}")
     @Column (nullable = false, length = 9)
     private String cep;
+
+    @OneToMany(mappedBy = "cliente")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Venda> vendas = new ArrayList<>();
+
+    public void adicionarVenda(Venda venda) {
+        venda.setCliente(this);
+    }
+
+    public void removerVenda(Venda venda) {
+        if (venda != null && venda.getCliente() == this) {
+            venda.setCliente(null);
+        }
+    }
+
+    void adicionarVendaAssociada(Venda venda) {
+        if (!vendas.contains(venda)) {
+            vendas.add(venda);
+        }
+    }
+
+    void removerVendaAssociada(Venda venda) {
+        vendas.remove(venda);
+    }
 }
