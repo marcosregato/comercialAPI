@@ -6,21 +6,29 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.br.hermes.comercial.ComercialApplication;
+import com.br.hermes.comercial.dto.CriarCaixaRequestDTO;
+import com.br.hermes.comercial.dto.CriarSangriaRequestDTO;
 import com.br.hermes.comercial.dto.CriarVendaRequestDTO;
 import com.br.hermes.comercial.dto.ItemVendaRequestDTO;
 import com.br.hermes.comercial.dto.VendaResponseDTO;
+import com.br.hermes.comercial.entities.Caixa;
 import com.br.hermes.comercial.entities.Pagamento;
 import com.br.hermes.comercial.entities.PrecoProduto;
 import com.br.hermes.comercial.entities.Produto;
+import com.br.hermes.comercial.entities.Sangria;
 import com.br.hermes.comercial.entities.Usuario;
 import com.br.hermes.comercial.entities.Venda;
 import com.br.hermes.comercial.enums.PagamentoEnum;
 import com.br.hermes.comercial.enums.StatusPagamentoEnum;
+import com.br.hermes.comercial.repository.CaixaRepository;
 import com.br.hermes.comercial.repository.PagamentoRepository;
 import com.br.hermes.comercial.repository.PrecoProdutoRepository;
 import com.br.hermes.comercial.repository.ProdutoRepository;
+import com.br.hermes.comercial.repository.SangriaRepository;
 import com.br.hermes.comercial.repository.UsuarioRepository;
 import com.br.hermes.comercial.repository.VendaRepository;
+import com.br.hermes.comercial.services.CaixaService;
+import com.br.hermes.comercial.services.SangriaService;
 import com.br.hermes.comercial.services.VendaService;
 
 import org.junit.jupiter.api.Test;
@@ -51,6 +59,18 @@ class ComercialApplicationTests {
 	private VendaService vendaService;
 
 	@Autowired
+	private CaixaRepository caixaRepository;
+
+	@Autowired
+	private SangriaRepository sangriaRepository;
+
+	@Autowired
+	private CaixaService caixaService;
+
+	@Autowired
+	private SangriaService sangriaService;
+
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	@Test
@@ -75,6 +95,30 @@ class ComercialApplicationTests {
 		assertEquals(new BigDecimal("60.00"), pagamentos.get(0).getValor());
 		assertEquals(PagamentoEnum.PIX, pagamentos.get(0).getTipo());
 		assertEquals(StatusPagamentoEnum.PAGO, pagamentos.get(0).getStatus());
+	}
+
+	@Test
+	@Transactional
+	void shouldPersistWithdrawalAndUpdateCashBalance() {
+		Caixa caixa = caixaService.criar(new CriarCaixaRequestDTO(
+				"teste-" + System.nanoTime(),
+				new BigDecimal("200.00")));
+
+		Sangria sangria = sangriaService.registrar(
+				caixa.getId(),
+				new CriarSangriaRequestDTO(
+						new BigDecimal("50.00"),
+						"Operador",
+						"Supervisor",
+						"aceite-operador",
+						"aceite-supervisor",
+						true,
+						"Uma nota de R$ 50,00"));
+
+		assertEquals(new BigDecimal("150.00"),
+				caixaRepository.findById(caixa.getId()).orElseThrow().getSaldoAtual());
+		assertEquals(new BigDecimal("150.00"),
+				sangriaRepository.findById(sangria.getId()).orElseThrow().getSaldoDepois());
 	}
 
 	@Test
